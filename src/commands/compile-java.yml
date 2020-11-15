@@ -1,0 +1,20 @@
+description: >
+  Compile java service
+steps:
+  - checkout
+  - restore_cache:
+      keys:
+        - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+        - v1-dependencies- # fallback in case previous cache key is not found
+  - run:
+      name: maven compile
+      command: mvn --batch-mode package -DskipTests
+  - persist_to_workspace:
+      root: ./
+      paths: target/*.jar
+  - save_cache:
+      paths:
+        - ~/.m2
+      key: v1-dependencies-{{ checksum "pom.xml" }}
+  - astradot-ci/slack-notify:
+      msg: Compilation
