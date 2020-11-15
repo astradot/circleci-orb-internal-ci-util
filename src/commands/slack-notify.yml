@@ -5,6 +5,7 @@ parameters:
   msg:
     type: string
 steps:
+  - build-version-env
   - slack-success:
       msg: << parameters.msg >> Successful
   - slack-fail:
