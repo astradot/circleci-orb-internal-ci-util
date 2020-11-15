@@ -16,5 +16,5 @@ steps:
       paths:
         - ~/.m2
       key: v1-dependencies-{{ checksum "pom.xml" }}
-  - astradot-ci/slack-notify:
+  - slack-notify:
       msg: Compilation
