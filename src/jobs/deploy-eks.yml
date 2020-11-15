@@ -1,0 +1,20 @@
+description: >
+  Deploy to AWS EKS
+docker:
+  - image: astradot/eks-helm:1
+resource_class: small
+parameters:
+  env:
+    description: deployment environment
+    type: enum
+    enum: [ "dev", "prod" ]
+steps:
+  - checkout
+  - build-version-env
+  - run:
+      name: deploy to k8s
+      command: |
+        chmod +x deploy-eks.sh && ./deploy-eks.sh << parameters.env >>
+        chmod +x sentry.sh && ./sentry.sh << parameters.env >>
+  - slack-notify:
+      msg: Deployment
