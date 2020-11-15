@@ -1,0 +1,33 @@
+description: >
+  Slack notification for job success
+parameters:
+  msg:
+    type: string
+steps:
+  - slack/notify:
+      event: pass
+      custom: |
+        {
+          "blocks": [
+            {
+              "type": "divider"
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*<< parameters.msg >>* :heavy_check_mark: :smirk:\n\n<https://github.com/astradot/$CIRCLE_PROJECT_REPONAME|$CIRCLE_PROJECT_REPONAME> on branch *$CIRCLE_BRANCH* by <https://github.com/astradot/$CIRCLE_PROJECT_REPONAME/commits?author=$CIRCLE_USERNAME|$CIRCLE_USERNAME>\n`<https://github.com/astradot/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1|$AST_BUILD_VERSION>` $COMMIT_MESSAGE"
+              }
+            },
+            {
+              "type": "context",
+              "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "<${CIRCLE_BUILD_URL}|Build #${CIRCLE_BUILD_NUM}>: *$CIRCLE_JOB*"
+                  }
+              ]
+            }
+          ]
+        }
+

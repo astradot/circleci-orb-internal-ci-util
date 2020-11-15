@@ -1,0 +1,11 @@
+description: >
+  Slack notification for job result
+
+parameters:
+  msg:
+    type: string
+steps:
+  - slack-success:
+      msg: << parameters.msg >> Successful
+  - slack-fail:
+      msg: << parameters.msg >> Failed
