@@ -8,5 +8,7 @@ steps:
   - build-version-env
   - slack-success:
       msg: << parameters.msg >> Successful
+      entity: "branch *$CIRCLE_BRANCH*"
   - slack-fail:
       msg: << parameters.msg >> Failed
+      entity: "branch *$CIRCLE_BRANCH*"
