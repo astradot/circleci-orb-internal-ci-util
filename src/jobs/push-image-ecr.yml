@@ -39,7 +39,7 @@ steps:
         equal:
           - [ java, << parameters.lang >> ]
       steps:
-        - astradot-ci/push-image-java:
+        - push-image-java:
             ecr-url: ECR_URL
             region: ECR_REGION
   - when:
@@ -47,10 +47,10 @@ steps:
         equal:
           - [ go, << parameters.lang >> ]
       steps:
-        - astradot-ci/push-image-go:
+        - push-image-go:
             ecr-url: ECR_URL
             region: ECR_REGION
 
-  - astradot-ci/slack-notify:
+  - slack-notify:
       msg: Push Image
 
