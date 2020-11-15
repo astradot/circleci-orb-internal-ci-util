@@ -1,0 +1,11 @@
+version: 2.1
+
+description: >
+  Orbs used by Astradot dev team internally
+
+display:
+  home_url: "https://www.astradot.com"
+  source_url: "https://www.github.com/astradot/circleci-orb-internal-ci-util"
+
+orbs:
+  slack: circleci/slack@4
