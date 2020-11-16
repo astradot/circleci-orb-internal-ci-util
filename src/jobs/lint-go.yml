@@ -1,0 +1,10 @@
+description: >
+  Go Lint
+
+docker:
+  - image: golangci/golangci-lint:latest
+steps:
+  - checkout
+  - run: golangci-lint run -v
+  - slack-notify:
+      msg: GoLint
