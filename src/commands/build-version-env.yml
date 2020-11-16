@@ -1,0 +1,8 @@
+description: >
+  Set env vars with commit msg and build version (based on git sha)
+steps:
+  - run:
+      name: git commit version
+      command: |
+        echo "export COMMIT_MESSAGE=\"$(git log --pretty=format:%s  -n 1 $CIRCLE_SHA1)\"" >> $BASH_ENV
+        echo "export AST_BUILD_VERSION=$(echo $CIRCLE_SHA1 | cut -c1-7)" >> $BASH_ENV

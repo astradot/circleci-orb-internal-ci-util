@@ -1,0 +1,52 @@
+description: >
+  Push docker image to AWS ECR
+
+resource_class: small
+docker:
+  - image: cimg/base:2020.01
+parameters:
+  env:
+    description: deployment environment
+    type: enum
+    enum: [ "dev", "prod" ]
+  lang:
+    description: deployment environment
+    type: enum
+    enum: [ "go", "java" ]
+steps:
+  - when:
+      condition:
+        equal:  [dev, << parameters.env >>]
+      steps:
+        - run:
+            name: set dev ecr vars
+            command: |
+              echo "export ECR_URL=$DEV_AWS_ECR_URL" >> $BASH_ENV
+              echo "export ECR_REGION=$DEV_AWS_REGION" >> $BASH_ENV
+  - when:
+      condition:
+        equal: [ prod, << parameters.env >> ]
+      steps:
+        - run:
+            name: set prod ecr vars
+            command: |
+              echo "export ECR_URL=$AWS_ECR_URL" >> $BASH_ENV
+              echo "export ECR_REGION=$AWS_DEFAULT_REGION" >> $BASH_ENV
+  - when:
+      condition:
+        equal: [ java, << parameters.lang >> ]
+      steps:
+        - push-image-java:
+            ecr-url: ECR_URL
+            region: ECR_REGION
+  - when:
+      condition:
+        equal: [ go, << parameters.lang >> ]
+      steps:
+        - push-image-go:
+            ecr-url: ECR_URL
+            region: ECR_REGION
+
+  - slack-notify:
+      msg: Push Image
+

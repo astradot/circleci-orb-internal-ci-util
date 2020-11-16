@@ -1,0 +1,29 @@
+description: >
+  Slack notification for job result
+
+parameters:
+  msg:
+    type: string
+  buildOnTag:
+    type: boolean
+    default: false
+steps:
+  - build-version-env
+  - unless:
+      condition: << parameters.buildOnTag >>
+      steps:
+        - slack-success:
+            msg: << parameters.msg >> Successful
+            entity: "branch *$CIRCLE_BRANCH*"
+        - slack-fail:
+            msg: << parameters.msg >> Failed
+            entity: "branch *$CIRCLE_BRANCH*"
+  - when:
+      condition: << parameters.buildOnTag >>
+      steps:
+        - slack-success:
+            msg: << parameters.msg >> Successful
+            entity: "tag *$CIRCLE_TAG*"
+        - slack-fail:
+            msg: << parameters.msg >> Failed
+            entity: "tag *$CIRCLE_TAG*"

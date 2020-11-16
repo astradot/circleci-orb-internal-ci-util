@@ -1,0 +1,21 @@
+description: >
+  Build and push image for Java services
+parameters:
+  ecr-url:
+    type: string
+  region:
+    type: string
+steps:
+  - build-version-env
+  - aws-ecr/build-and-push-image:
+      repo: "app-$CIRCLE_PROJECT_REPONAME"
+      tag: "$AST_BUILD_VERSION,latest"
+      extra-build-args: "--build-arg JAR_FILE=./target/$CIRCLE_PROJECT_REPONAME-0.0.1-SNAPSHOT.jar"
+      aws-access-key-id: AWS_ECR_KEY
+      aws-secret-access-key: AWS_ECR_SECRET
+      account-url:  << parameters.ecr-url >>
+      region:  << parameters.region >>
+      remote-docker-layer-caching: true
+      checkout: true
+      attach-workspace: true
+      setup-remote-docker: true
