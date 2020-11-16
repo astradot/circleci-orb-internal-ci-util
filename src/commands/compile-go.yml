@@ -1,0 +1,22 @@
+description: >
+  Compile Go service
+steps:
+  - checkout
+  - restore_cache:
+      keys:
+        - go-mod-v4-{{ checksum "go.sum" }}
+  - run:
+      name: Go compile
+      command: |
+        go version
+        go env
+        go build -o ./app $(pwd)/cmd/app
+  - persist_to_workspace:
+      root: ./
+      paths: app
+  - save_cache:
+      key: go-mod-v4-{{ checksum "go.sum" }}
+      paths:
+        - "/go/pkg/mod"
+  - slack-notify:
+      msg: Compilation

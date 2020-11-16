@@ -1,5 +1,5 @@
 description: >
-  Compile java service
+  Compile Java service
 steps:
   - checkout
   - restore_cache:
