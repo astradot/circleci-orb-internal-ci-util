@@ -8,6 +8,8 @@ steps:
   - run:
       name: Go compile
       command: |
+        go env -w GOPRIVATE=$GOPRIVATE
+        git config --global url."https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com".insteadOf "https://github.com"
         go version
         go env
         go build -o ./app $(pwd)/cmd/app
