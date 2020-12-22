@@ -32,6 +32,11 @@ steps:
                   {
                     "type": "mrkdwn",
                     "text": "<${CIRCLE_BUILD_URL}|Build #${CIRCLE_BUILD_NUM}>: *$CIRCLE_JOB*"
+                  },
+                  {
+                     "type": "image",
+                     "image_url": "https://github.com/$CIRCLE_USERNAME.png?size=40",
+                     "alt_text": "$CIRCLE_USERNAME"
                   }
               ]
             }
