@@ -5,6 +5,12 @@ docker:
   - image: golangci/golangci-lint:latest
 steps:
   - checkout
-  - run: golangci-lint run -v
+  - run:
+      name: Go Lint
+      command: |
+        go env -w GOPRIVATE=$GOPRIVATE
+        git config --global --unset url."ssh://git@github.com".insteadOf
+        git config --global url."https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com".insteadOf "https://github.com"
+        golangci-lint run -v
   - slack-notify:
       msg: GoLint
