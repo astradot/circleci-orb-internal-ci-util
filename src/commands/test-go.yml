@@ -1,0 +1,12 @@
+description: Run Go Tests
+steps:
+  - checkout
+  - run:
+      name: Go Test
+      command: |
+        go env -w GOPRIVATE=$GOPRIVATE
+        git config --global --unset url."ssh://git@github.com".insteadOf
+        git config --global url."https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com".insteadOf "https://github.com"
+        go test ./...
+  - slack-notify:
+      msg: Go Tests
