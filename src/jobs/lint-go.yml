@@ -3,6 +3,7 @@ description: >
 
 docker:
   - image: golangci/golangci-lint:latest
+resource_class: xlarge
 steps:
   - checkout
   - run:
