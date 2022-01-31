@@ -2,7 +2,7 @@ description: >
   Deploy to AWS EKS
 docker:
   - image: astradot/eks-helm:1
-resource_class: small
+resource_class: xlarge
 parameters:
   env:
     description: deployment environment

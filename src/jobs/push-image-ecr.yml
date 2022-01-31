@@ -1,7 +1,7 @@
 description: >
   Push docker image to AWS ECR
 
-resource_class: small
+resource_class: xlarge
 docker:
   - image: cimg/base:2020.01
 parameters:
