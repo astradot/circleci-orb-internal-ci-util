@@ -9,5 +9,5 @@ display:
 
 orbs:
   slack: circleci/slack@4
-  aws-ecr: circleci/aws-ecr@6
+  aws-ecr: circleci/aws-ecr@7
 
