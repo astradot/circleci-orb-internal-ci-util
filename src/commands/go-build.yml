@@ -1,0 +1,22 @@
+description: Build, Lint and Test Go code
+steps:
+  - run:
+      name: Setup git config
+      command: |
+        go env -w GOPRIVATE=$GOPRIVATE
+        git config --global --unset url."ssh://git@github.com".insteadOf
+        git config --global url."https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com".insteadOf "https://github.com"
+        go version
+        go env
+  - run:
+      name: Go compile
+      command: |
+        go build -o ./build/app $(pwd)/cmd/app
+  - run:
+      name: Lint
+      command: |
+        golangci-lint run -v
+  - run:
+      name: Test
+      command: |
+        go test ./...
