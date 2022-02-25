@@ -49,6 +49,5 @@ steps:
             command: |
               chmod +x deploy-eks.sh
               chmod +x sentry.sh
-              ./deploy-eks.sh  << parameters.env >> 
+              ./deploy-eks.sh  << parameters.env >>
               ./sentry.sh  << parameters.env >>
-            
