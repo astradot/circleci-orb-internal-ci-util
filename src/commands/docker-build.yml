@@ -45,7 +45,7 @@ steps:
             command: |
               docker push ${ECR_URL}/app-$CIRCLE_PROJECT_REPONAME:${AST_BUILD_VERSION}
         - run:
-            name: Deploy to k8s dev
+            name: Deploy to k8s
             command: |
               chmod +x deploy-eks.sh
               chmod +x sentry.sh
