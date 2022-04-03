@@ -23,7 +23,7 @@ steps:
             name: set prod ecr vars
             command: |
               echo "export ECR_URL=$AWS_ECR_URL" >> $BASH_ENV
-              echo "export AWS_REGION_ECR=$AWS_REGION" >> $BASH_ENV
+              echo "export AWS_REGION_ECR=$AWS_DEFAULT_REGION" >> $BASH_ENV
   - when:
       condition:
         not:
