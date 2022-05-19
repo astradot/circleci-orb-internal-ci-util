@@ -12,10 +12,10 @@ steps:
       name: Go compile
       command: |
         go build -o ./build/app $(pwd)/cmd/app
-  - run:
-      name: Lint
-      command: |
-        golangci-lint run -v
+  # - run:
+  #     name: Lint
+  #     command: |
+  #       golangci-lint run -v
   - run:
       name: Test
       command: |
