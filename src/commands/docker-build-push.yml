@@ -1,0 +1,46 @@
+description: Create and push a Docker image. Dont deploy to k8s.
+parameters:
+  env:
+    description: deployment environment
+    type: enum
+    enum: [ "none", "dev", "prod" ]
+
+steps:
+  - when:
+      condition:
+        equal: [ dev, << parameters.env >> ]
+      steps:
+        - run:
+            name: set dev ecr vars
+            command: |
+              echo "export ECR_URL=$DEV_AWS_ECR_URL" >> $BASH_ENV
+              echo "export AWS_REGION_ECR=$DEV_AWS_REGION" >> $BASH_ENV
+  - when:
+      condition:
+        equal: [ prod, << parameters.env >> ]
+      steps:
+        - run:
+            name: set prod ecr vars
+            command: |
+              echo "export ECR_URL=$AWS_ECR_URL" >> $BASH_ENV
+              echo "export AWS_REGION_ECR=$AWS_DEFAULT_REGION" >> $BASH_ENV
+  - when:
+      condition:
+        not:
+          equal: [ none, << parameters.env >> ]
+      steps:
+        - build-version-env
+        - run:
+            name: ECR login
+            command: |
+              aws configure set aws_access_key_id ${AWS_ECR_KEY}
+              aws configure set aws_secret_access_key ${AWS_ECR_SECRET}
+              aws ecr get-login-password --region ${AWS_REGION_ECR} | docker login --username AWS --password-stdin ${ECR_URL}
+        - run:
+            name: Docker build
+            command: |
+              docker build --build-arg APP_FILE=./build/app -t ${ECR_URL}/app-$CIRCLE_PROJECT_REPONAME:${AST_BUILD_VERSION} .
+        - run:
+            name: Docker push
+            command: |
+              docker push ${ECR_URL}/app-$CIRCLE_PROJECT_REPONAME:${AST_BUILD_VERSION}
